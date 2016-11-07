@@ -18,8 +18,9 @@
 
 
       addAddress: function(id, address, callback) {
+        const type = address.type;
         let addresses = angular.copy(service.userData.addresses);
-        addresses[id] = address;
+        addresses[type][id] = address;
         Relief.db.user.update(
           { addresses: addresses },
           callback
@@ -28,10 +29,11 @@
 
 
       updateAddress: function(address, callback) {
+        const type = address.type;
         let addresses = angular.copy(service.userData.addresses);
-        for (var i in addresses) {
-          if (addresses[i].address === address.address) {
-            addresses[i] = address;
+        for (var i in addresses[type]) {
+          if (addresses[type][i].address === address.address) {
+            addresses[type][i] = address;
           }
         }
         Relief.db.user.update(
@@ -42,10 +44,11 @@
 
 
       deleteAddress: function(address, callback) {
+        const type = address.type;
         let addresses = angular.copy(service.userData.addresses);
-        for (let i in addresses) {
-          if (addresses[i].address === address) {
-            delete addresses[i];
+        for (let i in addresses[type]) {
+          if (addresses[type][i].address === address) {
+            delete addresses[type][i];
           }
         }
         Relief.db.user.update(

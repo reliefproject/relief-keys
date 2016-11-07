@@ -19,8 +19,8 @@
       },
       editAddress: {},
       exportKeys: {
-        format: 'encrypted',
-        targetDir: Relief.app.getPath('desktop'),
+        format: 'json',
+        targetFile: Relief.app.getPath('desktop') + '/' + Relief.env.exportFilename,
       },
     };
 
@@ -171,7 +171,15 @@
 
 
     $scope.exportKeys = function() {
-      alert('succes or failure');
+      const format = $scope.forms.exportKeys.format;
+      const targetFile = $scope.forms.exportKeys.targetFile;
+      Relief.user.exportKeys(format, targetFile, function(err) {
+        if (err) {
+          alert('Error: ' + err.message);
+          return Relief.log.error(err);
+        }
+        alert($scope.strings.EXPORT_SUCCESS);
+      });
       angular.element('#modalExportKeys').modal('hide');
     };
 

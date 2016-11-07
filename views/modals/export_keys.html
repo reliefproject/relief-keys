@@ -10,21 +10,13 @@
 
       <div class="radio">
         <label>
-          <input type="radio" ng-model="forms.exportKeys.format" value="encrypted">
-          {{ strings.ENCRYPTED }}
-        </label>
-      </div>
-      <p><small>{{ strings.ENCRYPTED_TEXT }}</small></p>
-
-      <div class="radio">
-        <label>
           <input type="radio" ng-model="forms.exportKeys.format" value="json">
           {{ strings.CLEAR_TEXT }}
         </label>
       </div>
 
-      <label>{{ strings.TARGET_DIR }}</label>
-      <input type="text" class="form-control" ng-model="forms.exportKeys.targetDir">
+      <label>{{ strings.TARGET_FILE }}</label>
+      <input type="text" class="form-control" ng-model="forms.exportKeys.targetFile">
     </div>
 
     <div class="modal-footer">
@@ -33,7 +25,7 @@
       </button>
       <button type="button" class="btn btn-default"
               ng-click="exportKeys()">
-        {{ strings.EXPORT }}
+        {{ strings.BTN_EXPORT }}
       </button>
     </div>
 

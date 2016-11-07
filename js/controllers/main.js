@@ -22,6 +22,9 @@
         format: 'json',
         targetFile: Relief.app.getPath('desktop') + '/' + Relief.env.exportFilename,
       },
+      importKeys: {
+        file: '',
+      },
     };
 
 
@@ -179,6 +182,30 @@
         alert($scope.strings.EXPORT_SUCCESS);
         angular.element('#modalExportKeys').modal('hide');
       });
+    };
+
+
+    $scope.importKeys = function() {
+      const data = $scope.forms.importKeys.file;
+      Relief.user.importKeys(data, function(err) {
+        if (err) {
+          alert('Error: ' + err.message);
+          return Relief.log.error(err);
+        }
+        alert($scope.strings.IMPORT_SUCCESS);
+        angular.element('#modalImportKeys').modal('hide');
+        updateAddresses();
+      });
+    };
+
+
+    $scope.fileNameChanged = function(element) {
+      var reader = new FileReader();
+      reader.onload = function() {
+        $scope.forms.importKeys.file = reader.result;
+        $scope.$apply();
+      };
+      reader.readAsText(element.files[0]);
     };
 
 

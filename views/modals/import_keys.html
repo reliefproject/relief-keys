@@ -1,0 +1,27 @@
+<form class="modal-dialog" role="document" novalidate>
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h5 class="modal-title">{{ strings.IMPORT }}</h5>
+    </div>
+
+    <div class="modal-body">
+      <label>{{ strings.SELECT_FILE }}</label>
+      <input type="file" class="form-control"
+             onchange="angular.element(this).scope().fileNameChanged(this)">
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">
+        {{ strings.BTN_CLOSE }}
+      </button>
+      <button type="button" class="btn btn-default"
+              ng-click="importKeys()">
+        {{ strings.BTN_IMPORT }}
+      </button>
+    </div>
+
+  </div><!-- /.modal-content -->
+
+</form><!-- /.modal-dialog -->

@@ -128,7 +128,6 @@
           passphrase: '',
         };
         updateAddresses();
-        updateBalances();
       });
     };
 
@@ -165,7 +164,6 @@
         }
         angular.element('#modalDeleteAccount').modal('hide');
         updateAddresses();
-        updateBalances();
       });
     };
 

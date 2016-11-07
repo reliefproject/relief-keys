@@ -18,6 +18,10 @@
         passphrase: '',
       },
       editAddress: {},
+      exportKeys: {
+        format: 'encrypted',
+        targetDir: Relief.app.getPath('desktop'),
+      },
     };
 
 
@@ -164,6 +168,12 @@
         updateBalances();
       });
     };
+  };
+
+
+  $scope.exportKeys = function() {
+    alert('succes or failure');
+    angular.element('#modalExportKeys').modal('hide');
   };
 
 

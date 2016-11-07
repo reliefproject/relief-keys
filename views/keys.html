@@ -29,8 +29,8 @@
       <th>{{ strings.ACTIONS }}</th>
     </tr>
   </thead>
-  <tbody>
-    <tr ng-repeat="address in addresses">
+  <tbody ng-repeat="(k, coinAddresses) in addesses">
+    <tr ng-repeat="address in coinAddresses">
       <td>{{ address.type }}</td>
       <td>
         <span class="icon" ng-class="getIconClass(address.category)"></span>

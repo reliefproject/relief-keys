@@ -156,7 +156,7 @@
 
 
     $scope.setAddressToDelete = function(address) {
-      $scope.addressToDelete = address.address;
+      $scope.addressToDelete = address;
     };
 
 

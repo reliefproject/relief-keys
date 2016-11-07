@@ -31,7 +31,7 @@
       updateAddress: function(address, callback) {
         const type = address.type;
         let addresses = angular.copy(service.userData.addresses);
-        for (var i in addresses[type]) {
+        for (let i in addresses[type]) {
           if (addresses[type][i].address === address.address) {
             addresses[type][i] = address;
           }
@@ -47,7 +47,7 @@
         const type = address.type;
         let addresses = angular.copy(service.userData.addresses);
         for (let i in addresses[type]) {
-          if (addresses[type][i].address === address) {
+          if (addresses[type][i].address === address.address) {
             delete addresses[type][i];
           }
         }

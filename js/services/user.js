@@ -6,17 +6,6 @@
       balances: {},
 
 
-      getBalances: function(callback) {
-        Relief.user.getBalances(function(err, data) {
-          if (err) {
-            return callback(err);
-          }
-          service.balances = data;
-          callback();
-        });
-      },
-
-
       getUserData: function(callback) {
         Relief.db.user.getDoc(function(err, doc) {
           if (err) {

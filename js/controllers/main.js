@@ -1,16 +1,13 @@
 (function() {
 
+
   const mainController = function(
-    $scope, i18n, Settings, User, Address
+    $scope, i18n, Settings, User
   ) {
+
 
     $scope.strings = {};
     $scope.addresses = [];
-    $scope.balances = {};
-    $scope.txList = [];
-    $scope.txListPage = 1;
-    $scope.page = 'balances';
-    $scope.addressToDisplay = {};
     $scope.addressCategories = Relief.env.addressCategories;
     $scope.forms = {
       createAddress: {
@@ -22,6 +19,7 @@
       },
       editAddress: {},
     };
+
 
     Settings.loadSettings(function(err) {
       if (err) {
@@ -38,9 +36,9 @@
         $scope.strings = i18n.strings;
         $scope.$apply();
       });
-      updateBalances();
       updateAddresses();
     });
+
 
     const updateAddresses = function() {
       User.getUserData(function(err) {
@@ -52,15 +50,6 @@
       });
     };
 
-    const updateBalances = function() {
-      User.getBalances(function(err) {
-        if (err) {
-          return Relief.log.info(err);
-        }
-        $scope.balances = User.balances;
-        $scope.$apply();
-      });
-    };
 
     const getCategoryByName = function(cat) {
       for (var i in $scope.addressCategories) {
@@ -71,66 +60,6 @@
       return {};
     };
 
-    $scope.setPage = function(page, args) {
-      if (page === 'address') {
-        $scope.addressToDisplay = args;
-        Address.loadTransactions(args, function(err) {
-          if (err) {
-            return Relief.log.error(err);
-          }
-          $scope.txListPage = 1;
-          $scope.txList = Address.getSlice(
-            $scope.txListPage,
-            10
-          );
-          $scope.$apply();
-        });
-        Address.getNxtBalance(args.address, function(err) {
-          if (err) {
-            Relief.log.error(err);
-          }
-          $scope.addressToDisplay.balanceNxt = Address.balanceNxt;
-        })
-        Address.getNumAssets(args.address, function(err) {
-          if (err) {
-            return Relief.log.error(err);
-          }
-          $scope.addressToDisplay.numAssets = Address.numAssets;
-          $scope.$apply();
-        });
-        Address.getNumCurrencies(args.address, function(err) {
-          if (err) {
-            return Relief.log.error(err);
-          }
-          $scope.addressToDisplay.numCurrencies = Address.numCurrencies;
-          $scope.$apply();
-        });
-        Address.getNumAliases(args.address, function(err) {
-          if (err) {
-            return Relief.log.error(err);
-          }
-          $scope.addressToDisplay.numAliases = Address.numAliases;
-          $scope.$apply();
-        });
-      }
-      $scope.page = page;
-    };
-
-    $scope.showTxListNextButton = function() {
-      return ((Address.transactions.length / 10) > ($scope.txListPage));
-    };
-
-    $scope.getTxNumPages = function() {
-      return Math.ceil((Address.transactions.length / 10));
-    }
-
-    $scope.setTxListPage = function(page) {
-      $scope.txListPage = page;
-      $scope.txList = Address.getSlice(
-        page,
-        10
-      );
-    };
 
     $scope.getIconClass = function(category) {
       for (let i in $scope.addressCategories) {
@@ -141,6 +70,7 @@
       }
     };
 
+
     $scope.generatePassphrase = function() {
       Relief.crypto.generatePassphrase(12, function(phrase) {
         $scope.forms.createAddress.passphrase = phrase;
@@ -148,9 +78,11 @@
       });
     };
 
+
     $scope.copyToClipboard = function(string) {
       Relief.clipboard.writeText(string);
     };
+
 
     $scope.createAddress = function() {
       const form = $scope.forms.createAddress;
@@ -164,6 +96,7 @@
       }
       $scope.forms.createAddress.step++;
     };
+
 
     $scope.saveAddress = function() {
       const form = $scope.forms.createAddress;
@@ -195,10 +128,12 @@
       });
     };
 
+
     $scope.setAddressToEdit = function(address) {
       $scope.forms.editAddress = angular.copy(address);
       $scope.forms.editAddress.category = getCategoryByName(address.category);
     };
+
 
     $scope.saveEditedAddress = function() {
       let addr = $scope.forms.editAddress;
@@ -213,9 +148,11 @@
       });
     };
 
+
     $scope.setAddressToDelete = function(address) {
       $scope.addressToDelete = address.address;
     };
+
 
     $scope.deleteAddress = function() {
       User.deleteAddress($scope.addressToDelete, function(err) {
@@ -227,8 +164,8 @@
         updateBalances();
       });
     };
-
   };
+
 
   app.controller(
     'MainCtrl',
@@ -237,9 +174,9 @@
       'i18n',
       'Settings',
       'User',
-      'Address',
       mainController,
     ]
   );
+
 
 })();

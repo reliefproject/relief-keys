@@ -179,8 +179,8 @@
           return Relief.log.error(err);
         }
         alert($scope.strings.EXPORT_SUCCESS);
+        angular.element('#modalExportKeys').modal('hide');
       });
-      angular.element('#modalExportKeys').modal('hide');
     };
 
 

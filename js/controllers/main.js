@@ -168,12 +168,14 @@
         updateBalances();
       });
     };
-  };
 
 
-  $scope.exportKeys = function() {
-    alert('succes or failure');
-    angular.element('#modalExportKeys').modal('hide');
+    $scope.exportKeys = function() {
+      alert('succes or failure');
+      angular.element('#modalExportKeys').modal('hide');
+    };
+
+
   };
 
 

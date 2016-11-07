@@ -1,11 +1,11 @@
 {
-  "name":"wallet",
+  "name":"keys",
   "title":{
-    "en":"Wallet",
-    "de":"Brieftasche"
+    "en":"Keys",
+    "de":"Schlüssel"
   },
-  "description":"Nxt Wallet",
+  "description":"Key Manager",
   "version":"0.0.0",
-  "icon":"icon-home",
+  "icon":"icon-key",
   "main":"wallet.html"
 }

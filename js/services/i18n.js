@@ -4,11 +4,11 @@
     var service = {
       strings: {},
       loadStrings: function(language, callback) {
-        Relief.i18n.loadStrings(language, 'wallet', function(err, strings) {
+        Relief.i18n.loadStrings(language, 'keys', function(err, strings) {
           if (err) {
             return callback(err);
           }
-          service.strings = strings.wallet;
+          service.strings = strings.keys;
           callback();
         });
       },

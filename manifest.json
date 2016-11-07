@@ -7,5 +7,5 @@
   "description":"Key Manager",
   "version":"0.0.0",
   "icon":"icon-key",
-  "main":"wallet.html"
+  "main":"keys.html"
 }

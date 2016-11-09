@@ -1,34 +1,30 @@
 (function() {
 
+
   app.service('User', function() {
-    var service = {
+    let service = {
       userData: {},
       balances: {},
 
 
-      getUserData: function(callback) {
-        Relief.db.user.getDoc(function(err, doc) {
-          if (err) {
-            return callback(err);
-          }
+      getUserData: function() {
+        return Relief.db.user.getDoc().then(function(doc) {
           service.userData = doc;
-          callback();
         });
       },
 
 
-      addAddress: function(id, address, callback) {
+      addAddress: function(id, address) {
         const type = address.type;
         let addresses = angular.copy(service.userData.addresses);
         addresses[type][id] = address;
-        Relief.db.user.update(
-          { addresses: addresses },
-          callback
-        );
+        return Relief.db.user.update({
+          addresses: addresses,
+        });
       },
 
 
-      updateAddress: function(address, callback) {
+      updateAddress: function(address) {
         const type = address.type;
         let addresses = angular.copy(service.userData.addresses);
         for (let i in addresses[type]) {
@@ -36,14 +32,13 @@
             addresses[type][i] = address;
           }
         }
-        Relief.db.user.update(
-          { addresses: addresses },
-          callback
-        );
+        return Relief.db.user.update({
+          addresses: addresses,
+        });
       },
 
 
-      deleteAddress: function(address, callback) {
+      deleteAddress: function(address) {
         const type = address.type;
         let addresses = angular.copy(service.userData.addresses);
         for (let i in addresses[type]) {
@@ -51,10 +46,9 @@
             delete addresses[type][i];
           }
         }
-        Relief.db.user.update(
-          { addresses: addresses },
-          callback
-        );
+        return Relief.db.user.update({
+          addresses: addresses,
+        });
       },
 
 

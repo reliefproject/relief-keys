@@ -1,15 +1,11 @@
 (function() {
 
   app.service('Settings', function() {
-    var service = {
+    let service = {
       settings: {},
-      loadSettings: function(callback) {
-        Relief.db.app.getDoc(function(err, data) {
-          if (err) {
-            return callback(err);
-          }
+      loadSettings: function() {
+        return Relief.db.app.getDoc().then(function(data) {
           service.settings = data;
-          callback();
         });
       },
     };

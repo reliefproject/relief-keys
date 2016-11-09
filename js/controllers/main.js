@@ -28,33 +28,32 @@
     };
 
 
-    Settings.loadSettings(function(err) {
-      if (err) {
-        return Relief.log.error(err);
-      }
-      i18n.loadStrings(Settings.settings.language, function(err) {
-        if (err) {
-          return Relief.log.error(err);
-        }
-        for (let i in $scope.addressCategories) {
-          const category = $scope.addressCategories[i];
-          $scope.addressCategories[i].title = i18n.getCategoryTitle(category.name);
-        }
-        $scope.strings = i18n.strings;
-        $scope.$apply();
-      });
+    Settings.loadSettings()
+    .then(function() {
       updateAddresses();
-    });
+      return i18n.loadStrings(Settings.settings.language);
+    })
+    .then(function() {
+      for (let i in $scope.addressCategories) {
+        const category = $scope.addressCategories[i];
+        $scope.addressCategories[i].title = i18n.getCategoryTitle(category.name);
+      }
+      $scope.strings = i18n.strings;
+      $scope.$apply();
+    },
+      // Error handler
+      Relief.log.error
+    );
 
 
     const updateAddresses = function() {
-      User.getUserData(function(err) {
-        if (err) {
-          return Relief.log.error(err);
-        }
+      User.getUserData().then(function() {
         $scope.addresses = User.userData.addresses;
         $scope.$apply();
-      });
+      },
+        // Error handler
+        Relief.log.error
+      );
     };
 
 
@@ -79,7 +78,8 @@
 
 
     $scope.generatePassphrase = function() {
-      Relief.crypto.generatePassphrase(12, function(phrase) {
+      Relief.crypto.generatePassphrase(12)
+      .then(function(phrase) {
         $scope.forms.createAddress.passphrase = phrase;
         $scope.$apply();
       });
@@ -94,12 +94,10 @@
     $scope.createAddress = function() {
       const form = $scope.forms.createAddress;
       if (form.type === 'nxt') {
-
         const addr = Relief.nxt.generateAddress(form.passphrase);
         form.address = addr.address;
         form.addressNumeric = addr.numeric;
         form.publicKey = addr.publicKey;
-
       }
       $scope.forms.createAddress.step++;
     };
@@ -118,10 +116,8 @@
         publicKey: form.publicKey,
         privateKey: privKey,
       };
-      User.addAddress(form.addressNumeric, address, function(err) {
-        if (err) {
-          return Relief.log.error(err);
-        }
+      User.addAddress(form.addressNumeric, address)
+      .then(function() {
         angular.element('#modalCreateAccount').modal('hide');
         $scope.forms.createAddress = {
           step: 1,
@@ -131,7 +127,10 @@
           passphrase: '',
         };
         updateAddresses();
-      });
+      },
+        // Error handler
+        Relief.log.error
+      );
     };
 
 
@@ -144,14 +143,15 @@
     $scope.saveEditedAddress = function() {
       let addr = $scope.forms.editAddress;
       addr.category = addr.category.name;
-      User.updateAddress(addr, function(err) {
-        if (err) {
-          return Relief.log.error(err);
-        }
+      User.updateAddress(addr)
+      .then(function() {
         angular.element('#modalEditAccount').modal('hide');
         $scope.forms.editAddress = {};
         updateAddresses();
-      });
+      },
+        // Error handler
+        Relief.log.error
+      );
     };
 
 
@@ -161,40 +161,41 @@
 
 
     $scope.deleteAddress = function() {
-      User.deleteAddress($scope.addressToDelete, function(err) {
-        if (err) {
-          return Relief.log.error(err);
-        }
+      User.deleteAddress($scope.addressToDelete)
+      .then(function() {
         angular.element('#modalDeleteAccount').modal('hide');
         updateAddresses();
-      });
+      },
+        // Error handler
+        Relief.log.error
+      );
     };
 
 
     $scope.exportKeys = function() {
       const format = $scope.forms.exportKeys.format;
       const targetFile = $scope.forms.exportKeys.targetFile;
-      Relief.user.exportKeys(format, targetFile, function(err) {
-        if (err) {
-          alert('Error: ' + err.message);
-          return Relief.log.error(err);
-        }
+      Relief.user.exportKeys(format, targetFile)
+      .then(function() {
         alert($scope.strings.EXPORT_SUCCESS);
         angular.element('#modalExportKeys').modal('hide');
+      }, function(err) {
+        alert('Error: ' + err.message);
+        Relief.log.error(err);
       });
     };
 
 
     $scope.importKeys = function() {
       const data = $scope.forms.importKeys.file;
-      Relief.user.importKeys(data, function(err) {
-        if (err) {
-          alert('Error: ' + err.message);
-          return Relief.log.error(err);
-        }
+      Relief.user.importKeys(data)
+      .then(function() {
         alert($scope.strings.IMPORT_SUCCESS);
         angular.element('#modalImportKeys').modal('hide');
         updateAddresses();
+      }, function(err) {
+        alert('Error: ' + err.message);
+        Relief.log.error(err);
       });
     };
 

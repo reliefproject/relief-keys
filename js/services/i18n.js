@@ -1,21 +1,21 @@
 (function() {
 
   app.service('i18n', function() {
-    var service = {
+    let service = {
       strings: {},
-      loadStrings: function(language, callback) {
-        Relief.i18n.loadStrings(language, 'keys', function(err, strings) {
-          if (err) {
-            return callback(err);
-          }
+
+      loadStrings: function(language) {
+        return Relief.i18n.loadStrings(language, 'keys')
+        .then(function(strings) {
           service.strings = strings.keys;
-          callback();
         });
       },
+
       getCategoryTitle: function(cat) {
         const key = 'CATEGORY_' + cat.toUpperCase();
         return service.strings[key];
       },
+
     };
     return service;
   });

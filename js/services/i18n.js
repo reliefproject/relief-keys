@@ -7,7 +7,7 @@
       loadStrings: function(language) {
         return Relief.i18n.loadStrings(language, 'keys')
         .then(function(strings) {
-          service.strings = strings.keys;
+          service.strings = strings;
         });
       },
 

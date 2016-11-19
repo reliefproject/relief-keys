@@ -3,8 +3,8 @@
   app.service('Settings', function() {
     let service = {
       settings: {},
-      loadSettings: function() {
-        return Relief.db.app.getDoc().then(function(data) {
+      loadSettings: () => {
+        return Relief.db.app.getDoc().then(data => {
           service.settings = data;
         });
       },

@@ -2,19 +2,20 @@
 
 
   app.service('User', function() {
+
     let service = {
       userData: {},
       balances: {},
 
 
-      getUserData: function() {
-        return Relief.db.user.getDoc().then(function(doc) {
+      getUserData: () => {
+        return Relief.db.user.getDoc().then(doc => {
           service.userData = doc;
         });
       },
 
 
-      addAddress: function(id, address) {
+      addAddress: (id, address) => {
         const type = address.type;
         let addresses = angular.copy(service.userData.addresses);
         addresses[type][id] = address;
@@ -24,7 +25,7 @@
       },
 
 
-      updateAddress: function(address) {
+      updateAddress: address => {
         const type = address.type;
         let addresses = angular.copy(service.userData.addresses);
         for (let i in addresses[type]) {
@@ -38,7 +39,7 @@
       },
 
 
-      deleteAddress: function(address) {
+      deleteAddress: address => {
         const type = address.type;
         let addresses = angular.copy(service.userData.addresses);
         for (let i in addresses[type]) {

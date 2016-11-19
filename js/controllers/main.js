@@ -29,21 +29,18 @@
 
 
     Settings.loadSettings()
-    .then(function() {
+    .then(() => {
       updateAddresses();
-      return i18n.loadStrings(Settings.settings.language);
-    })
-    .then(function() {
+      i18n.load(Settings.settings.language, ['common', 'keys']);
       for (let i in $scope.addressCategories) {
         const category = $scope.addressCategories[i];
         $scope.addressCategories[i].title = i18n.getCategoryTitle(category.name);
       }
       $scope.strings = i18n.strings;
       $scope.$apply();
-    },
-      // Error handler
-      Relief.log.error
-    );
+    }, err => {
+      Relief.log.error(err.stack || err);
+    });
 
 
     const updateAddresses = function() {

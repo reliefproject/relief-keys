@@ -7,5 +7,6 @@
   "description":"Key Manager",
   "version":"0.0.0",
   "icon":"icon-key",
-  "main":"keys.html"
+  "main":"keys.html",
+  "relief":"0.0.0"
 }
